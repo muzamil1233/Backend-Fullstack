@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 dotenv.config({path : '.env'})
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5174', // your Vite frontend
+  origin: 'http://localhost:5173', // your Vite frontend
   credentials: true // if you use cookies
 }));
 import { fileURLToPath } from "url";

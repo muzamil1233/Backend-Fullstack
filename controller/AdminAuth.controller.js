@@ -28,6 +28,8 @@ export const signup= async (req,res)=>{
     });
     }
 }
+
+
 export const signin =async (req,res)=>{
     try {
         const{email,password} = req.body;
@@ -66,3 +68,4 @@ export const signin =async (req,res)=>{
     return res.status(500).json({ msg: "Server error" });
     }
 }
+

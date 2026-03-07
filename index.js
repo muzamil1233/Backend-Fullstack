@@ -9,7 +9,10 @@ import dotenv from 'dotenv'
 dotenv.config({path : '.env'})
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // your Vite frontend
+  origin: ['http://localhost:5173',
+  'https://frontend-fulstack-lel1.vercel.app/'], 
+  
+  
   credentials: true // if you use cookies
 }));
 import { fileURLToPath } from "url";
@@ -36,7 +39,7 @@ app.use(express.json())
 // app.use(cookieParser())
 app.use(express.urlencoded({extended : false}))
 dbConnection()
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 
 app.use("/api/user" ,  Authrouter);

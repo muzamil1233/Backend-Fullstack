@@ -48,5 +48,9 @@ app.use("/api/Admin", Adminrouter);
 app.use("/api/Bag", Bagrouter);
 app.use("/api/query", Emailrouter)
 
+app.get("/", (req, res) => {
+  res.send("Thrift backend is live...");
+});
+
 
 app.listen(PORT , ()=>console.log(`server is connected in port ${PORT}`))

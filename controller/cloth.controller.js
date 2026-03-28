@@ -93,42 +93,38 @@ export const editCloth = async (req, res) => {
     const { id } = req.params;
     console.log("🧾 Edit request received for ID:", id);
 
-    // ✅ Validate ID
-    if (!id) {
-      return res.status(400).json({ msg: "ID is required" });
-    }
+    if (!id) return res.status(400).json({ msg: "ID is required" });
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ msg: "Invalid ID format" });
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ msg: "Invalid ID format" });
-    }
-
-    // ✅ Handle uploaded images
+    // ✅ Start with existing images sent from frontend
     let imageUrls = [];
 
-    if (req.files && req.files.length > 0) {
-      imageUrls = req.files.map((file) => `/uploads/${file.filename}`);
-    } else if (req.body.images) {
-      // fallback for existing images (string or array)
-      imageUrls = Array.isArray(req.body.images)
-        ? req.body.images
-        : [req.body.images];
+    if (req.body.existingImages) {
+      imageUrls = Array.isArray(req.body.existingImages)
+        ? req.body.existingImages
+        : [req.body.existingImages];
     }
 
-    // ✅ Merge form data and images
+    // ✅ Add newly uploaded images on top
+    if (req.files && req.files.length > 0) {
+      const newImages = req.files.map((file) => `/uploads/${file.filename}`);
+      imageUrls = [...imageUrls, ...newImages];
+    }
+
+    // ✅ Remove existingImages from body to avoid saving it as a field
+    const { existingImages, ...restBody } = req.body;
+
     const updateData = {
-      ...req.body,
+      ...restBody,
       images: imageUrls,
     };
 
-    // ✅ Update in DB
     const updatedCloth = await Clothes.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
 
-    if (!updatedCloth) {
-      return res.status(404).json({ msg: "Cloth not found" });
-    }
+    if (!updatedCloth) return res.status(404).json({ msg: "Cloth not found" });
 
     console.log("✅ Cloth updated:", updatedCloth);
 

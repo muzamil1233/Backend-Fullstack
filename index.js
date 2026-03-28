@@ -8,14 +8,20 @@ import dotenv from 'dotenv'
 // import { dbConnection } from './DbConnection/connection.js'
 dotenv.config({path : '.env'})
 const app = express();
+// app.use(cors({
+//   origin: [
+//     'http://localhost:5173',
+//     'https://frontend-fulstack-lel1.vercel.app',
+//     'https://worldfitcom.netlify.app'
+//   ],
+//   credentials: true
+// }));
+//allowing all:
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://frontend-fulstack-lel1.vercel.app', // ✅ removed /
-    'https://worldfitcom.netlify.app'
-  ],
+  origin: true,
   credentials: true
 }));
+
 
 import { fileURLToPath } from "url";
 import path from 'path'

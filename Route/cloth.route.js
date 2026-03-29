@@ -11,10 +11,10 @@ router.post("/AddCloths" , authorize,upload.array("images"), AddClothes)
 router.delete("/deleteClothes/:id",authorize, deleteClothes)
 router.put("/EditClothes/:id", authorize, upload.array("images"), editCloth);
 
-router.get("/getClothes",authorize,getCloth)
-router.get("/getClothes/:type",authorize,GetClothByType)
-router.get("/getCloth/:id", authorize, getClothById);
+router.get("/getClothes",getCloth)
+router.get("/getClothes/:type",GetClothByType)
+router.get("/getCloth/:id",  getClothById);
 
-router.get("/getClothes/catogory/:category",authorize,GetClothbyCatogory)
+router.get("/getClothes/catogory/:category",GetClothbyCatogory)
 export default router
 

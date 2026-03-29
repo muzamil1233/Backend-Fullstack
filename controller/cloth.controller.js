@@ -28,7 +28,8 @@ export const AddClothes = async (req, res) => {
 
     // Add uploaded files (local)
     if (req.files && req.files.length > 0) {
-      const localPaths = req.files.map((file) => `/uploads/${file.filename}`);
+      // const localPaths = req.files.map((file) => `/uploads/${file.filename}`);
+      const localPaths = req.files.map((file) => file.path);
       imageUrls = [...imageUrls, ...localPaths]; // merge
     }
 
@@ -99,15 +100,16 @@ export const editCloth = async (req, res) => {
     // ✅ Start with existing images sent from frontend
     let imageUrls = [];
 
-    if (req.body.existingImages) {
-      imageUrls = Array.isArray(req.body.existingImages)
-        ? req.body.existingImages
-        : [req.body.existingImages];
-    }
+    // if (req.body.existingImages) {
+    //   imageUrls = Array.isArray(req.body.existingImages)
+    //     ? req.body.existingImages
+    //     : [req.body.existingImages];
+    // }
 
     // ✅ Add newly uploaded images on top
     if (req.files && req.files.length > 0) {
-      const newImages = req.files.map((file) => `/uploads/${file.filename}`);
+      // const newImages = req.files.map((file) => `/uploads/${file.filename}`);
+      const newImages = req.files.map((file) => file.path);
       imageUrls = [...imageUrls, ...newImages];
     }
 

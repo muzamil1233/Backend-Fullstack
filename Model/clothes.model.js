@@ -8,7 +8,9 @@ const clothesSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Men", "Women", "Kids", "Unisex"],
+    // enum: ["Men", "Women", "Kids", "Unisex","Machine"],
+    enum: ["Machine", "Hand Tilla", "Aari Work", "Others"],
+
     required: true
   },
   type: {

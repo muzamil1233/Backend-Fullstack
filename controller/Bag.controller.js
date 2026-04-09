@@ -12,24 +12,30 @@ import ProductModel from "../Model/Product.model.js";
 
 export const AddBag = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user?.userId;
     const { productId, quantity = 1, size = null, color = null } = req.body;
 
-    if (!userId || !productId) {
-      return res.status(400).json({ msg: "userId and productId are required" });
+    // ✅ Auth check
+    if (!userId) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+
+    // ✅ Presence check
+    if (!productId) {
+      return res.status(400).json({ msg: "productId is required" });
+    }
+
+    // ✅ ObjectId validation before casting
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ msg: "Invalid userId" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ msg: "Invalid productId" });
     }
 
     const userObjectId = new mongoose.Types.ObjectId(userId);
     const productObjectId = new mongoose.Types.ObjectId(productId);
 
-    console.log("🔍 Checking existing item using:", {
-      userId: userObjectId,
-      productId: productObjectId,
-      size,
-      color,
-    });
-
-    // ✅ Find existing item with same (product + size + color)
     const existingItem = await BagModel.findOne({
       userId: userObjectId,
       productId: productObjectId,
@@ -38,20 +44,11 @@ export const AddBag = async (req, res) => {
     });
 
     if (existingItem) {
-      // console.log("✨ Item exists → updating quantity");
-
       existingItem.quantity += quantity;
       await existingItem.save();
-
-      return res.status(200).json({
-        message: "Quantity updated",
-        item: existingItem,
-      });
+      return res.status(200).json({ message: "Quantity updated", item: existingItem });
     }
 
-    console.log("🆕 Creating new bag item");
-
-    // ❗ Create new document if no match found
     const newItem = await BagModel.create({
       userId: userObjectId,
       productId: productObjectId,
@@ -61,10 +58,7 @@ export const AddBag = async (req, res) => {
       addedAt: new Date(),
     });
 
-    return res.status(201).json({
-      message: "Item added to bag",
-      item: newItem,
-    });
+    return res.status(201).json({ message: "Item added to bag", item: newItem });
 
   } catch (error) {
     console.error("❌ Error adding to bag:", error);

@@ -25,7 +25,7 @@ app.use(cors({
 
 import { fileURLToPath } from "url";
 import path from 'path'
-// import clothrouter from './Route/cloth.route.js'
+
 import Authrouter from './Route/Auth.route.js';
 import clothrouter from './Route/cloth.route.js';
 import { dbConnection } from './DbConnection/connection.js';
@@ -55,6 +55,10 @@ app.use("/api/cloth",clothrouter );
 app.use("/api/Admin", Adminrouter);
 app.use("/api/Bag", Bagrouter);
 app.use("/api/query", Emailrouter)
+
+
+
+
 
 app.get("/", (req, res) => {
   res.send("Thrift backend is live...");

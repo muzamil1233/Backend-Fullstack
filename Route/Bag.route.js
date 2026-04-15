@@ -4,11 +4,11 @@ import { authorize } from "../MiddleWare/auth.middleware.js";
 
 const router = express.Router()
 
-router.post("/",  AddBag);
-router.get("/getbag/:userId",  GetBag)
-router.get("/count", GetBagCount)
-router.put("/updateBag/:itemId",  UpdateBagItem)
-router.patch("/patchBag/:itemId",  bagPatch)
-router.delete("/deleteBag/:itemId",  DeleteBagItem)
+router.post("/",  authorize , AddBag);
+router.get("/getbag/:userId",authorize,  GetBag)
+router.get("/count", authorize,GetBagCount)
+router.put("/updateBag/:itemId", authorize, UpdateBagItem)
+router.patch("/patchBag/:itemId",authorize,  bagPatch)
+router.delete("/deleteBag/:itemId",authorize,  DeleteBagItem)
 
 export default router;

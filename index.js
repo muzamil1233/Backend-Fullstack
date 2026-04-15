@@ -32,6 +32,7 @@ import { dbConnection } from './DbConnection/connection.js';
 import Adminrouter from './Route/AuthAdmin.route.js';
 import Bagrouter from './Route/Bag.route.js';
 import Emailrouter from './Route/mailExport.route.js';
+import Razorpayrouter from './Route/razorpay.route.js';
 // import cookieParser from 'cookie-parser'
 
 
@@ -55,6 +56,7 @@ app.use("/api/cloth",clothrouter );
 app.use("/api/Admin", Adminrouter);
 app.use("/api/Bag", Bagrouter);
 app.use("/api/query", Emailrouter)
+app.use("/api/payment", Razorpayrouter);
 
 
 

@@ -101,15 +101,9 @@ export const GetBagCount = async (req, res) => {
 
 export const GetBag = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id; // ✅ from token
 
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required" });
-    }
-
-    const userObjectId = new mongoose.Types.ObjectId(userId);
-
-    const items = await BagModel.find({ userId: userObjectId })
+    const items = await BagModel.find({ userId })
       .populate("productId", "name price image")
       .sort({ addedAt: -1 });
 
@@ -125,6 +119,7 @@ export const GetBag = async (req, res) => {
     });
   }
 };
+
 
 
 

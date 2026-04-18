@@ -5,7 +5,10 @@ import { authorize } from "../MiddleWare/auth.middleware.js";
 const router = express.Router()
 
 router.post("/",  authorize , AddBag);
-router.get("/getbag/:userId",authorize,  GetBag)
+// router.get("/getbag/:userId",authorize,  GetBag)
+router.get("/getbag", authorize, GetBag)
+
+
 router.get("/count", authorize,GetBagCount)
 router.put("/updateBag/:itemId", authorize, UpdateBagItem)
 router.patch("/patchBag/:itemId",authorize,  bagPatch)

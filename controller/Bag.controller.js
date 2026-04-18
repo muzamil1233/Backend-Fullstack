@@ -101,7 +101,8 @@ export const GetBagCount = async (req, res) => {
 
 export const GetBag = async (req, res) => {
   try {
-    const userId = req.user.id; // ✅ from token
+   const userId = req.user.userId;
+ // ✅ from token
 
     const items = await BagModel.find({ userId })
       .populate("productId", "name price image")

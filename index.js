@@ -65,6 +65,9 @@ app.use("/api/payment", Razorpayrouter);
 app.get("/", (req, res) => {
   res.send("Thrift backend is live...");
 });
+app.get("/test", (req, res) => {
+  res.json({ msg: "test route works", routes: ["/api/Bag", "/api/user", "/api/cloth"] });
+});
 
 
 app.listen(PORT , ()=>console.log(`server is connected in port ${PORT}`))

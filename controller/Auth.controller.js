@@ -133,24 +133,68 @@ export const login = async (req, res) =>{
 
 export const getProfile = async (req, res) => {
   try {
+    console.log("REQ.USER:", req.user);
+
+    if (!req.user?.userId) {
+      return res.status(401).json({ msg: "Invalid token" });
+    }
+
     const user = await User.findById(req.user.userId).select("-password");
-    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
     res.status(200).json(user);
+
   } catch (error) {
+    console.error("GET ERROR:", error);
     res.status(500).json({ msg: "Server error" });
   }
 };
 
+
 export const updateProfile = async (req, res) => {
   try {
+    console.log("REQ.USER:", req.user);
+    console.log("BODY:", req.body);
+
+    if (!req.user?.userId) {
+      return res.status(401).json({ msg: "Invalid token" });
+    }
+
     const { name, phone, bio, dateOfBirth, address, avatar } = req.body;
+
+    const updateData = {};
+
+    if (name) updateData.name = name;
+    if (phone) updateData.phone = phone;
+    if (bio) updateData.bio = bio;
+    if (dateOfBirth) updateData.dateOfBirth = dateOfBirth;
+    if (avatar) updateData.avatar = avatar;
+
+    // ✅ SAFE address handling
+    if (address && (address.city || address.state)) {
+      updateData.address = {
+        city: address.city || "",
+        state: address.state || "",
+      };
+    }
+
     const updated = await User.findByIdAndUpdate(
       req.user.userId,
-      { name, phone, bio, dateOfBirth, address, avatar },
-      { new: true }
+      updateData,
+      { new: true, runValidators: true }
     ).select("-password");
+
+    if (!updated) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
     res.status(200).json(updated);
+
   } catch (error) {
+    console.error("UPDATE ERROR:", error); // 👈 THIS WILL SHOW REAL ISSUE
     res.status(500).json({ msg: "Server error" });
   }
 };

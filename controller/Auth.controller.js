@@ -130,3 +130,27 @@ export const login = async (req, res) =>{
 //     return res.status(500).json({ msg: "Server error" });
 //     }
 // }
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+    if (!user) return res.status(404).json({ msg: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, phone, bio, dateOfBirth, address, avatar } = req.body;
+    const updated = await User.findByIdAndUpdate(
+      req.user.userId,
+      { name, phone, bio, dateOfBirth, address, avatar },
+      { new: true }
+    ).select("-password");
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+};

@@ -139,7 +139,7 @@ export const getProfile = async (req, res) => {
       return res.status(401).json({ msg: "Invalid token" });
     }
 
-    const user = await User.findById(req.user.userId).select("-password");
+    const user = await user.findById(req.user.userId).select("-password");
 
     if (!user) {
       return res.status(404).json({ msg: "User not found" });
@@ -181,7 +181,7 @@ export const updateProfile = async (req, res) => {
       };
     }
 
-    const updated = await User.findByIdAndUpdate(
+    const updated = await user.findByIdAndUpdate(
       req.user.userId,
       updateData,
       { new: true, runValidators: true }

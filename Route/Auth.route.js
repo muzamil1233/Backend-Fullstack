@@ -9,6 +9,6 @@ router.post("/login", login)
 router.get("/signup",(req,res)=>{
     return res.render("signup")
 })
-router.get("/profile", authorize, getProfile);
-router.put("/profile", authorize, updateProfile);
+router.get("/profile",  getProfile);
+router.put("/profile", updateProfile);
 export default router

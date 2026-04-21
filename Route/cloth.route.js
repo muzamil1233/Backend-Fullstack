@@ -7,6 +7,7 @@ import {
   GetClothbyCatogory,
   getClothById,
   GetClothByType,
+  searchClothes,
 } from "../controller/cloth.controller.js";
 
 import { authorize } from "../MiddleWare/auth.middleware.js";
@@ -20,7 +21,9 @@ router.put("/EditClothes/:id", authorize, upload.array("images"), editCloth);
 
 router.get("/getClothes", getCloth);
 router.get("/getClothes/type/:type", GetClothByType); // ✅ FIXED (no conflict)
+router.get("/search", searchClothes);
 router.get("/getCloth/:id", getClothById); // ✅ IMPORTANT
 router.get("/getClothes/category/:category", GetClothbyCatogory);
+
 
 export default router;

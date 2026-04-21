@@ -197,3 +197,23 @@ export const GetClothbyCatogory= async(req,res)=>{
     res.status(500).json({ msg: "Server error" });
      }
 }
+
+
+export const searchClothes = async (req, res) => {
+  try {
+    const { name } = req.query;
+
+    if (!name) {
+      return res.status(400).json({ msg: "Search name is required" });
+    }
+
+    const results = await Clothes.find({
+      name: { $regex: name, $options: "i" }, // case-insensitive
+    });
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error in search:", error);
+    res.status(500).json({ msg: "Server error" });
+  }
+};

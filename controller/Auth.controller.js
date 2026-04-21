@@ -166,7 +166,7 @@ export const updateProfile = async (req, res) => {
     const { name, phone, bio, dateOfBirth, address, avatar } = req.body;
 
     const updateData = {};
-const updateData = {};
+
 
 if (name !== undefined) updateData.name = name;
 if (phone !== undefined) updateData.phone = phone;

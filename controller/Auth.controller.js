@@ -166,20 +166,21 @@ export const updateProfile = async (req, res) => {
     const { name, phone, bio, dateOfBirth, address, avatar } = req.body;
 
     const updateData = {};
+const updateData = {};
 
-    if (name) updateData.name = name;
-    if (phone) updateData.phone = phone;
-    if (bio) updateData.bio = bio;
-    if (dateOfBirth) updateData.dateOfBirth = dateOfBirth;
-    if (avatar) updateData.avatar = avatar;
+if (name !== undefined) updateData.name = name;
+if (phone !== undefined) updateData.phone = phone;
+if (bio !== undefined) updateData.bio = bio;
+if (dateOfBirth !== undefined) updateData.dateOfBirth = dateOfBirth;
+if (avatar !== undefined) updateData.avatar = avatar;
 
-    // ✅ SAFE address handling
-    if (address && (address.city || address.state)) {
-      updateData.address = {
-        city: address.city || "",
-        state: address.state || "",
-      };
-    }
+if (address !== undefined) {
+  updateData.address = {
+    city: address.city || "",
+    state: address.state || "",
+  };
+}
+
 
     const updated = await user.findByIdAndUpdate(
       req.user.userId,

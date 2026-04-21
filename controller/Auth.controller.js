@@ -194,7 +194,7 @@ export const updateProfile = async (req, res) => {
     res.status(200).json(updated);
 
   } catch (error) {
-    console.error("UPDATE ERROR:", error); // 👈 THIS WILL SHOW REAL ISSUE
-    res.status(500).json({ msg: "Server error" });
+    console.error("🔥 UPDATE ERROR FULL:", error);
+  res.status(500).json({ msg: error.message }); 
   }
 };
